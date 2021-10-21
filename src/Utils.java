@@ -27,4 +27,8 @@ public class Utils {
         System.out.print(prompt);
         return scanner.nextLine();
     }
+
+    public static int generateRandomInt(int min, int max) {
+        return min + (int)(Math.random() * ((max - min) + 1));
+    }
 }
