@@ -5,7 +5,6 @@ import QuestionPackage.QuestionType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.OptionalDouble;
-import java.util.OptionalInt;
 
 public class Classe {
     private final String name;
@@ -47,13 +46,13 @@ public class Classe {
     }
 
     public double getMoyenneNbTentative() {
-        OptionalDouble optionalDouble = this.students.stream().mapToInt(Student::getNbParties).average();
+        OptionalDouble optionalDouble = this.students.stream().mapToInt(Student::getNbTentative).average();
         if(optionalDouble.isPresent()) return optionalDouble.getAsDouble();
         else return 0;
     }
 
     public double getMoyenneNbTentativeForQuestionType(QuestionType questionType) {
-        OptionalDouble optionalDouble = this.students.stream().mapToInt(student -> student.getNbPartiesForQuestionType(questionType)).average();
+        OptionalDouble optionalDouble = this.students.stream().mapToInt(student -> student.getNbTentativeForQuestionType(questionType)).average();
         if(optionalDouble.isPresent()) return optionalDouble.getAsDouble();
         else return 0;
     }

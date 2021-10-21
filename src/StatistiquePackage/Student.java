@@ -71,21 +71,21 @@ public class Student {
         else return 0;
     }
 
-    public int getNbParties() {
+    public int getNbTentative() {
         return parties.size();
     }
 
-    public int getNbPartiesForQuestionType(QuestionType questionType) {
+    public int getNbTentativeForQuestionType(QuestionType questionType) {
         return parties.stream().filter(partie -> partie.getQuestionType().equals(questionType)).toList().size();
     }
 
-    public double getAverageScore() {
+    public double getMoyenne() {
         OptionalDouble optionalAVGScore = parties.stream().mapToInt(Partie::getScore).average();
         if(optionalAVGScore.isPresent()) return optionalAVGScore.getAsDouble();
         else return 0;
     }
 
-    public double getAverageScoreForQuestionType(QuestionType questionType) {
+    public double getMoyenneScoreForQuestionType(QuestionType questionType) {
         OptionalDouble optionalAVGScore = parties.stream().filter(partie -> partie.getQuestionType().equals(questionType)).mapToInt(Partie::getScore).average();
         if(optionalAVGScore.isPresent()) return optionalAVGScore.getAsDouble();
         else return 0;
@@ -100,10 +100,10 @@ public class Student {
     }
 
     public StudentStatistique getGlobalStatistique() {
-        return new StudentStatistique(this.getBestScore(), this.getNbParties(), this.getAverageScore(), this.getNbEntrainements());
+        return new StudentStatistique(this.getBestScore(), this.getNbTentative(), this.getMoyenne(), this.getNbEntrainements());
     }
 
     public StudentStatistique getStatistiqueForQuestionType(QuestionType questionType) {
-        return new StudentStatistique(this.getBestScoreForQuestionType(questionType), this.getNbPartiesForQuestionType(questionType), this.getAverageScoreForQuestionType(questionType), this.getNbEntrainementsForQuestionType(questionType));
+        return new StudentStatistique(this.getBestScoreForQuestionType(questionType), this.getNbTentativeForQuestionType(questionType), this.getMoyenneScoreForQuestionType(questionType), this.getNbEntrainementsForQuestionType(questionType));
     }
 }
