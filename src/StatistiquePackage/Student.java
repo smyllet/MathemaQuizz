@@ -7,10 +7,12 @@ import java.util.*;
 public class Student {
     private final String name;
     ArrayList<Partie> parties;
+    ArrayList<Partie> entrainements;
 
     public Student(String name) {
         this.name = name;
         this.parties = new ArrayList<>();
+        this.entrainements = new ArrayList<>();
     }
 
     public String getName() {
@@ -66,6 +68,7 @@ public class Student {
         statistique.put("Meilleur Score", (double) this.getBestScore());
         statistique.put("Nombre de tentative", (double) this.getNbParties());
         statistique.put("Moyenne des scores", this.getAverageScore());
+        statistique.put("Nombre d'entrainement", (double) this.getNbEntrainements());
         return statistique;
     }
 
@@ -74,6 +77,27 @@ public class Student {
         statistique.put("Meilleur Score", (double) this.getBestScoreForQuestionType(questionType));
         statistique.put("Nombre de tentative", (double) this.getNbPartiesForQuestionType(questionType));
         statistique.put("Moyenne des scores", this.getAverageScoreForQuestionType(questionType));
+        statistique.put("Nombre d'entrainement", (double) this.getNbEntrainementsForQuestionType(questionType));
         return statistique;
+    }
+
+    public ArrayList<Partie> getEntrainements() {
+        return entrainements;
+    }
+
+    public void setEntrainements(ArrayList<Partie> entrainements) {
+        this.entrainements = parties;
+    }
+
+    public void addEntrainement(Partie partie) {
+        this.entrainements.add(partie);
+    }
+
+    public int getNbEntrainements() {
+        return this.entrainements.size();
+    }
+
+    public int getNbEntrainementsForQuestionType(QuestionType questionType) {
+        return this.entrainements.stream().filter(partie -> partie.getQuestionType().equals(questionType)).toList().size();
     }
 }

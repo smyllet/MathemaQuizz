@@ -42,8 +42,16 @@ public class Main {
                     }
                     QuestionGenerator questionGenerator = questionGeneratorsAvailable.get(Utils.inputInt(1, questionGeneratorsAvailable.size(), "> ") - 1);
                     Game game = new Game(questionGenerator);
+
+                    System.out.println("Il s'agit : ");
+                    System.out.println("1 - D'un entrainement");
+                    System.out.println("2 - D'une evaluation");
+
+                    boolean evaluation = Utils.inputInt(1, 2, "> ") == 2;
+
                     Partie partie = game.playGame();
-                    student.addParties(partie);
+                    if(evaluation) student.addParties(partie);
+                    else student.addEntrainement(partie);
                 }
                 case 2 -> statistiqueIHM.run();
                 case 3 -> {
