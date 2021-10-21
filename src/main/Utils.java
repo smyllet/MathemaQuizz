@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Scanner;
 
 public class Utils {
@@ -18,6 +20,26 @@ public class Utils {
             } catch (Exception ignored){}
 
             if(!valideInput) System.out.println("Erreur de saisie, vous devez saisir un nombre entre " + minValue + " et " + maxValue);
+        } while (!valideInput);
+
+        return numberToReturn;
+    }
+
+    public static int inputInt(String prompt) {
+        boolean valideInput = false;
+        String userInput;
+        int numberToReturn = 0;
+
+        do {
+            System.out.print(prompt);
+            userInput = scanner.nextLine();
+
+            try {
+                numberToReturn = Integer.parseInt(userInput);
+                valideInput = true;
+            } catch (Exception ignored){}
+
+            if(!valideInput) System.out.println("Erreur de saisie, vous devez saisir un nombre");
         } while (!valideInput);
 
         return numberToReturn;
