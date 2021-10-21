@@ -2,6 +2,7 @@ package main;
 
 import QuestionPackage.Question;
 import QuestionPackage.QuestionGenerator;
+import StatistiquePackage.Partie;
 
 public class Game {
     private final QuestionGenerator questionGenerator;
@@ -10,7 +11,7 @@ public class Game {
         this.questionGenerator = questionGenerator;
     }
 
-    public void startGame() {
+    public Partie playGame() {
         int score = 0;
         System.out.println("Veuillez réaliser les 10 opérations suivantes : ");
 
@@ -25,5 +26,6 @@ public class Game {
             else System.out.println("Mauvaise réponse, la réponse était : " + question.getAnswer());
         }
         System.out.println("Fin de la partie, votre score est de " + score + "/10");
+        return new Partie(score, questionGenerator.getQuestionType());
     }
 }

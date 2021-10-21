@@ -1,22 +1,59 @@
 package main;
 
 import QuestionPackage.*;
+import StatistiquePackage.Partie;
+import StatistiquePackage.Statistique;
+import StatistiquePackage.Student;
+
+import Exception.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Veuillez saisir le numéro du type de question souhaitez : ");
         List<QuestionGenerator> questionGeneratorsAvailable = Arrays.asList(new AdditionQuestionGenerator(2), new AdditionQuestionGenerator(3), new AdditionQuestionGenerator(4), new MultiplicationQuestionGenerator(), new PositifSubtractionQuestionGenerator(1), new PositifSubtractionQuestionGenerator(2));
+        Statistique statistique = new Statistique();
+        StatistiqueIHM statistiqueIHM = new StatistiqueIHM(statistique);
+        boolean exit = false;
 
-        for(int i = 0; i < questionGeneratorsAvailable.size(); i++) {
-            System.out.println(i+1 + " - " + questionGeneratorsAvailable.get(i).getName());
+        while (!exit) {
+            System.out.println("Veuillez saisir le numéro de l'action souhaitez : ");
+            System.out.println("1 - Commencer un exercice");
+            System.out.println("2 - Consulter les statistiques");
+            System.out.println("3 - Quitter");
+
+            int choix = Utils.inputInt(1, 3, "> ");
+
+            switch (choix) {
+                case 1 -> {
+                    System.out.println("Veuillez saisir votre nom");
+                    String name = Utils.inputString("> ");
+                    Student student;
+                    try {
+                        student = statistique.getStudentByName(name);
+                    } catch (StudentDoesntExistException e) {
+                        student = new Student(name);
+                        statistique.addStudent(student);
+                    }
+                    System.out.println("Veuillez saisir le numéro du type de question souhaitez : ");
+                    for (int i = 0; i < questionGeneratorsAvailable.size(); i++) {
+                        System.out.println(i + 1 + " - " + questionGeneratorsAvailable.get(i).getName());
+                    }
+                    QuestionGenerator questionGenerator = questionGeneratorsAvailable.get(Utils.inputInt(1, questionGeneratorsAvailable.size(), "> ") - 1);
+                    Game game = new Game(questionGenerator);
+                    Partie partie = game.playGame();
+                    student.addParties(partie);
+                }
+                case 2 -> statistiqueIHM.run();
+                case 3 -> {
+                    exit = true;
+                    System.out.println("Fin de la session");
+                }
+                default -> System.out.println("Saisie invalide");
+            }
+
+            if(!exit) System.out.println("Retour au menu principal . . .");
         }
-
-        QuestionGenerator questionGenerator = questionGeneratorsAvailable.get(Utils.inputInt(1, questionGeneratorsAvailable.size(), "> ") - 1);
-
-        Game game = new Game(questionGenerator);
-        game.startGame();
     }
 }

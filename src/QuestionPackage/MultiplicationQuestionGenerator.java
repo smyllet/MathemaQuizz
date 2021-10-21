@@ -4,6 +4,11 @@ import main.Utils;
 
 public class MultiplicationQuestionGenerator implements QuestionGenerator {
     @Override
+    public QuestionType getQuestionType() {
+        return QuestionType.MULTIPLICATION;
+    }
+
+    @Override
     public String getName() {
         return "Multiplication";
     }

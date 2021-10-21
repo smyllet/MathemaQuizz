@@ -9,6 +9,11 @@ public class AdditionQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
+    public QuestionType getQuestionType() {
+        return QuestionType.ADDITION;
+    }
+
+    @Override
     public String getName() {
         return "Addition à " + level + " chiffre" + ((level > 1) ? "s": "");
     }

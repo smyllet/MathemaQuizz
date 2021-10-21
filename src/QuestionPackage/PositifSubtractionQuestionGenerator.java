@@ -10,6 +10,11 @@ public class PositifSubtractionQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
+    public QuestionType getQuestionType() {
+        return QuestionType.SUBTRACT;
+    }
+
+    @Override
     public String getName() {
         return "Soustraction à " + level + " chiffre" + ((level > 1) ? "s": "");
     }
