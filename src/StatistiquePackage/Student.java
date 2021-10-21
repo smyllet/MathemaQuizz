@@ -6,11 +6,17 @@ import java.util.*;
 
 public class Student {
     private final String name;
+    private Classe classe;
     ArrayList<Partie> parties;
     ArrayList<Partie> entrainements;
 
     public Student(String name) {
+        this(name, null);
+    }
+
+    public Student(String name, Classe classe) {
         this.name = name;
+        this.classe = classe;
         this.parties = new ArrayList<>();
         this.entrainements = new ArrayList<>();
     }
@@ -30,6 +36,28 @@ public class Student {
     public void addParties(Partie partie) {
         this.parties.add(partie);
     }
+
+    public ArrayList<Partie> getEntrainements() {
+        return entrainements;
+    }
+
+    public void setEntrainements(ArrayList<Partie> entrainements) {
+        this.entrainements = parties;
+    }
+
+    public void addEntrainement(Partie partie) {
+        this.entrainements.add(partie);
+    }
+
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
+
+    // - - - Statistique - - - //
 
     public int getBestScore() {
         OptionalInt optionalBestScore = this.parties.stream().mapToInt(Partie::getScore).max();
@@ -63,41 +91,19 @@ public class Student {
         else return 0;
     }
 
-    public HashMap<String, Double> getStatistiqueMap() {
-        HashMap<String, Double> statistique = new HashMap<>();
-        statistique.put("Meilleur Score", (double) this.getBestScore());
-        statistique.put("Nombre de tentative", (double) this.getNbParties());
-        statistique.put("Moyenne des scores", this.getAverageScore());
-        statistique.put("Nombre d'entrainement", (double) this.getNbEntrainements());
-        return statistique;
-    }
-
-    public HashMap<String, Double> getStatistiqueMapForQuestionType(QuestionType questionType) {
-        HashMap<String, Double> statistique = new HashMap<>();
-        statistique.put("Meilleur Score", (double) this.getBestScoreForQuestionType(questionType));
-        statistique.put("Nombre de tentative", (double) this.getNbPartiesForQuestionType(questionType));
-        statistique.put("Moyenne des scores", this.getAverageScoreForQuestionType(questionType));
-        statistique.put("Nombre d'entrainement", (double) this.getNbEntrainementsForQuestionType(questionType));
-        return statistique;
-    }
-
-    public ArrayList<Partie> getEntrainements() {
-        return entrainements;
-    }
-
-    public void setEntrainements(ArrayList<Partie> entrainements) {
-        this.entrainements = parties;
-    }
-
-    public void addEntrainement(Partie partie) {
-        this.entrainements.add(partie);
-    }
-
     public int getNbEntrainements() {
         return this.entrainements.size();
     }
 
     public int getNbEntrainementsForQuestionType(QuestionType questionType) {
         return this.entrainements.stream().filter(partie -> partie.getQuestionType().equals(questionType)).toList().size();
+    }
+
+    public StudentStatistique getGlobalStatistique() {
+        return new StudentStatistique(this.getBestScore(), this.getNbParties(), this.getAverageScore(), this.getNbEntrainements());
+    }
+
+    public StudentStatistique getStatistiqueForQuestionType(QuestionType questionType) {
+        return new StudentStatistique(this.getBestScoreForQuestionType(questionType), this.getNbPartiesForQuestionType(questionType), this.getAverageScoreForQuestionType(questionType), this.getNbEntrainementsForQuestionType(questionType));
     }
 }

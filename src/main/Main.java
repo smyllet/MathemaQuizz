@@ -1,8 +1,9 @@
 package main;
 
 import QuestionPackage.*;
+import StatistiquePackage.Classe;
 import StatistiquePackage.Partie;
-import StatistiquePackage.Statistique;
+import StatistiquePackage.StatistiqueContainer;
 import StatistiquePackage.Student;
 
 import Exception.*;
@@ -13,8 +14,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         List<QuestionGenerator> questionGeneratorsAvailable = Arrays.asList(new AdditionQuestionGenerator(2), new AdditionQuestionGenerator(3), new AdditionQuestionGenerator(4), new MultiplicationQuestionGenerator(), new PositifSubtractionQuestionGenerator(1), new PositifSubtractionQuestionGenerator(2));
-        Statistique statistique = new Statistique();
-        StatistiqueIHM statistiqueIHM = new StatistiqueIHM(statistique);
+        StatistiqueContainer statistiqueContainer = new StatistiqueContainer();
+        StatistiqueIHM statistiqueIHM = new StatistiqueIHM(statistiqueContainer);
         boolean exit = false;
 
         while (!exit) {
@@ -31,10 +32,20 @@ public class Main {
                     String name = Utils.inputString("> ");
                     Student student;
                     try {
-                        student = statistique.getStudentByName(name);
+                        student = statistiqueContainer.getStudentByName(name);
                     } catch (StudentDoesntExistException e) {
-                        student = new Student(name);
-                        statistique.addStudent(student);
+                        System.out.println("Il semblerais que vous soyez nouveau, dans quel classe vous trouvez vous ?");
+                        String classeName = Utils.inputString("> ");
+                        Classe classe;
+                        try {
+                            classe = statistiqueContainer.getClasseByName(classeName);
+                        } catch (StudentDoesntExistException studentDoesntExistException) {
+                            classe = new Classe(classeName);
+                        }
+                        student = new Student(name, classe);
+                        statistiqueContainer.addStudent(student);
+                        classe.addStudent(student);
+                        statistiqueContainer.addClasse(classe);
                     }
                     System.out.println("Veuillez saisir le numéro du type de question souhaitez : ");
                     for (int i = 0; i < questionGeneratorsAvailable.size(); i++) {
